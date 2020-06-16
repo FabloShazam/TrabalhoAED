@@ -34,6 +34,8 @@ public class GUT {
 
     }
 
+    
+    //https://www.youtube.com/watch?v=5prE6Mz8Vh0 _ Favor assistir esse video para entender melhor essa parte
     public int[] MergeSort(int[] vet, int inicio, int fim) {
         if (fim - inicio > 1) {
             int medio = (inicio + fim) / 2;
@@ -45,51 +47,37 @@ public class GUT {
     }
 
     private void Merge(int[] vet, int baixo, int medio, int alto) {
-        int[] helper = new int[vet.length];
-        for (int i = baixo; i <= alto; i++) {
-            helper[i] = vet[i];
+        int[] left = new int[medio];
+        int[] right = new int[medio];
+        for (int i = baixo; i <= medio; i++) {
+            left[i] = vet[i];
+            right[i] = vet[i + medio];
         }
-        int helperLeft = baixo;
-        int helperRight = medio + 1;
-        int atual = baixo;
-        while (helperLeft <= medio && helperRight <= alto) {
-            if (helper[helperLeft] <= helper[helperRight]) {
-                vet[atual] = helper[helperLeft];
-                helperLeft++;
+        int top_right = 0;
+        int top_left = 0;
+        for (int aux = baixo; aux <= alto; aux++) {
+            if (top_left >= left.length) {
+                vet[aux] = right[top_right];
+                top_right++;
+
             } else {
-                vet[atual] = helper[helperRight];
-                helperRight++;
-            }
-            atual++;
-        }
-        int remaining = medio - helperLeft;
-        for (int i = 0; i <= remaining; i++) {
-            vet[atual + i] = helper[helperLeft + i];
 
+                if (top_right >= right.length) {
+                    vet[aux] = left[top_left];
+                    top_left++;
+                } else {
 
-            /*     int temporaria;
-        String descricaoTemporaria;
+                    if (left[top_left] < right[top_right]) {
+                        vet[aux] = left[top_left];
+                        top_left++;
 
-        for (int ax = 0; ax < MultGut.length - 1; ax++) {
-            for (int x = 0; x < MultGut.length - 1; x++) {
-                if (MultGut[x] < MultGut[x + 1]) {
-                    temporaria = this.MultGut[x];
-                    MultGut[x] = MultGut[x + 1];
-                    MultGut[x + 1] = temporaria;
-                    descricaoTemporaria = Descricao[x];
-                    Descricao[x] = Descricao[x + 1];
-                    Descricao[x + 1] = descricaoTemporaria;
+                    } else {
+                        vet[aux] = right[top_right];
+                        top_right++;
+
+                    }
                 }
             }
         }
-
-        for (int x = 0; x < Descricao.length; x++) {
-            System.out.println(x + "º : " + Descricao[x]);
-
-        }
-
-    }*/
-        }
     }
-
 }
