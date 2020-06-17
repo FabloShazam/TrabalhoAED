@@ -63,19 +63,31 @@ public class GUT {
         int i = inicio;
         int j = meio + 1;
 
+        int id = iniciod;
+        int jd = meiod + 1;
+
+        for (int k = iniciod; k <= fimd; k++) {
+            if (id > meiod) {
+                d[k] = dw[jd++];
+            } else if (jd > fimd) {
+                d[k] = dw[id++];
+            } else if (w[id] < w[jd]) {
+                d[k] = dw[id++];
+            } else {
+                d[k] = dw[jd++];
+            }
+
+        }
+
         for (int k = inicio; k <= fim; k++) {
             if (i > meio) {
                 v[k] = w[j++];
-                d[k] = dw[j++];
             } else if (j > fim) {
                 v[k] = w[i++];
-                d[k] = dw[i++];
             } else if (w[i] < w[j]) {
                 v[k] = w[i++];
-                d[k] = dw[i++];
             } else {
                 v[k] = w[j++];
-                d[k] = dw[j++];
             }
 
         }
@@ -83,52 +95,3 @@ public class GUT {
     }
 
 }
-
-//https://www.youtube.com/watch?v=5prE6Mz8Vh0 _ Favor assistir esse video para entender melhor essa parte
-/*
-    public int[] MergeSort(int[] vet, int inicio, int fim) {
-        if (fim - inicio > 1) {
-            int medio = (inicio + fim) / 2;
-            MergeSort(vet, inicio, medio);
-            MergeSort(vet, medio + 1, fim);
-            Merge(vet, inicio, medio, fim);
-        }
-        return (vet);
-    }
-
-    private void Merge(int[] vet, int baixo, int medio, int alto) {
-        int[] left = new int[medio];
-        int[] right = new int[medio];
-        for (int i = baixo; i <= medio; i++) {
-            left[i] = vet[i];
-            right[i] = vet[i + medio];
-        }
-        int top_right = 0;
-        int top_left = 0;
-        for (int aux = baixo; aux <= alto; aux++) {
-            if (top_left >= left.length) {
-                vet[aux] = right[top_right];
-                top_right++;
-
-            } else {
-
-                if (top_right >= right.length) {
-                    vet[aux] = left[top_left];
-                    top_left++;
-                } else {
-
-                    if (left[top_left] < right[top_right]) {
-                        vet[aux] = left[top_left];
-                        top_left++;
-
-                    } else {
-                        vet[aux] = right[top_right];
-                        top_right++;
-
-                    }
-                }
-            }
-        }
-    }
-   
- */
