@@ -1,0 +1,109 @@
+package Trabson;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class GUT {
+
+    public int[] MultGut;
+    public String[] Descricao;
+    
+    Scanner t = new Scanner(System.in);
+    Scanner t1 = new Scanner(System.in);
+    
+//método para definir as tarefas, e o grau de prioridade das tarefas (coleta de Dados do usuário) de acordo com a escala GUT.
+    public void setTask() {
+       
+        System.out.println("Informe o número de tárefas que serão tratadas: ");
+        
+        int N = t.nextInt();
+        this.MultGut = new int[N];
+        this.Descricao = new String[N];
+        
+        System.out.println("A seguir, responda o nível de importância em cada situação, de acordo com a escala a seguir: ");
+        System.out.println();
+        System.out.println("1 - Não tão importante importante\r\n" + 
+        		"2 - Pouco Importante\r\n" + 
+        		"3 - Média importância\r\n" + 
+        		"4 - Muito  importante\r\n" + 
+        		"5 - Extremamente importante");
+        System.out.println();
+        
+        for (int x = 0; x < N; x++) {
+            System.out.println("Informe a descrição da tarefa: ");
+            Descricao[x] = t1.nextLine();
+            System.out.println("Informe o nível Gravidade (1 a 5): ");
+            int gravidade = t.nextInt();
+            System.out.println("Informe o nível Urgência (1 a 5): ");
+            int urgencia = t.nextInt();
+            System.out.println("Informe o nível Tendência (1 a 5): ");
+            int tendencia = t.nextInt();
+
+            MultGut[x] = gravidade * urgencia * tendencia;
+//A prioridade é definida nessa última operação da linha 31, conforme a escala GUT.
+        }
+
+        int[] w = new int[MultGut.length];
+        String[] dw = new String[Descricao.length];
+//Métodos de instanciamento para saída de dados.
+        
+        mergeSort(Descricao, dw, 0, Descricao.length - 1, MultGut, w, 0, MultGut.length - 1);
+        System.out.println(Arrays.toString(MultGut)); //Saída de dados colocada somente para analisar se a MatrziGUT estava sendo organizada devidamente.
+        System.out.println("Lista de tarefas (Ordenadas da menor para a maior prioridade: ");
+        System.out.println(Arrays.toString(Descricao));
+
+    }
+//Chamada dos métodos de ordenação
+
+    public static void mergeSort(String[] d, String[] dw, int iniciod, int fimd, int[] v, int[] w, int inicio, int fim) {
+    	 //Verificação da validade dos parâmetros passados 
+        if (inicio < fim && iniciod < fimd) {
+            int meio = (inicio + fim) / 2;
+            int meiod = (iniciod + fimd) / 2;
+            mergeSort(d, dw, iniciod, meiod, v, w, inicio, meio);
+            mergeSort(d, dw, meiod + 1, fimd, v, w, meio + 1, fim);
+            merge(d, dw, iniciod, meiod, fimd, v, w, inicio, meio, fim);
+        }
+    }
+//Método que ordena as tarefas, e suas prioridades utiizando o Merge Sort (até colocamos os nomes dos métodos cmo mergeSorte e merge, para uma melhro visualização.)
+    private static void merge(String[] d, String[] dw, int iniciod, int meiod, int fimd, int[] v, int[] w, int inicio, int meio, int fim) {
+
+        for (int k = inicio; k <= fim; k++) {
+            w[k] = v[k];
+            dw[k] = d[k];
+        }
+
+        int i = inicio;
+        int j = meio + 1;
+
+        int id = iniciod;
+        int jd = meiod + 1;
+
+        for (int k = iniciod; k <= fimd; k++) {
+            if (id > meiod) {
+                d[k] = dw[jd++];
+            } else if (jd > fimd) {
+                d[k] = dw[id++];
+            } else if (w[id] < w[jd]) {
+                d[k] = dw[id++];
+            } else {
+                d[k] = dw[jd++];
+            }
+
+        }
+
+        for (int k = inicio; k <= fim; k++) {
+            if (i > meio) {
+                v[k] = w[j++];
+            } else if (j > fim) {
+                v[k] = w[i++];
+            } else if (w[i] < w[j]) {
+                v[k] = w[i++];
+            } else {
+                v[k] = w[j++];
+            }
+        }
+
+    }
+
+}
